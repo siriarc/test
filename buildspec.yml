@@ -1,0 +1,30 @@
+version: 0.2
+os: linux
+phases:
+    build:
+      commands:
+      - echo build started in `date`
+      - cd lib
+      - pwd
+      - zip -r deployment_package.zip ../
+      - pwd
+      - cd ..
+      - pwd
+      - ls
+      - cd lib
+      - ls
+      - zip -sf deployment_package.zip
+      - ls
+      - echo compiling the python code
+      - echo this is my code
+      - pip install pandas
+      - echo pandas library is installed
+    post_build:
+      commands:
+      - echo build completed on `date`
+      - aws lambda update-function-code --function-name test-lambda --zip-file fileb://deployment_package.zip
+      - pwd
+      - ls 
+artifacts:
+    files:
+      '**/*'
